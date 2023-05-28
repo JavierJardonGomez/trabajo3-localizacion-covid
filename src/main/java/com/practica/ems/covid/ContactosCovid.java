@@ -223,7 +223,6 @@ public class ContactosCovid {
 	private PosicionPersona crearPosicionPersona(String[] data) {
 		PosicionPersona posicionPersona = new PosicionPersona();
 		Map<Integer, String> nuevaPosicionPersona = new HashMap<>();
-		float latitud = 0, longitud;
 
 		for (int i = 1; i < Constantes.MAX_DATOS_LOCALIZACION; i++) {
 			nuevaPosicionPersona.put(i, data[i]);
