@@ -4,9 +4,7 @@ package com.practica.ems.covid;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import com.practica.excecption.EmsDuplicateLocationException;
 import com.practica.excecption.EmsDuplicatePersonException;
@@ -16,6 +14,8 @@ import com.practica.excecption.EmsLocalizationNotFoundException;
 import com.practica.excecption.EmsPersonNotFoundException;
 import com.practica.genericas.*;
 import com.practica.lista.ListaContactos;
+
+import static java.lang.Float.parseFloat;
 
 public class ContactosCovid {
 	private Poblacion poblacion;
@@ -101,7 +101,7 @@ public class ContactosCovid {
 			e.printStackTrace();
 		} finally {
 			// En el finally cerramos el fichero, para asegurarnos
-			// que se cierra tanto si todo va bien como si salta
+			// que se cierra tanto si to do va bien como si salta
 			// una excepcion.
 			try {
 				if (null != lector.getFr()) {
@@ -205,61 +205,32 @@ public class ContactosCovid {
 
 	private Persona crearPersona(String[] data) {
 		Persona persona = new Persona();
+		Map<Integer, String> personaNueva= new HashMap<>();
+
 		for (int i = 1; i < Constantes.MAX_DATOS_PERSONA; i++) {
-			String s = data[i];
-			switch (i) {
-			case 1:
-				persona.setDocumento(s);
-				break;
-			case 2:
-				persona.setNombre(s);
-				break;
-			case 3:
-				persona.setApellidos(s);
-				break;
-			case 4:
-				persona.setEmail(s);
-				break;
-			case 5:
-				persona.setDireccion(s);
-				break;
-			case 6:
-				persona.setCp(s);
-				break;
-			case 7:
-				persona.setFechaNacimiento(parsearFecha(s));
-				break;
-			}
+			personaNueva.put(i,data[i]);
 		}
+			persona.setDocumento(personaNueva.get(1));
+			persona.setNombre(personaNueva.get(2));
+			persona.setApellidos(personaNueva.get(3));
+			persona.setEmail(personaNueva.get(4));
+			persona.setDireccion(personaNueva.get(5));
+			persona.setCp(personaNueva.get(6));
+			persona.setFechaNacimiento(parsearFecha(personaNueva.get(7)));
 		return persona;
 	}
 
 	private PosicionPersona crearPosicionPersona(String[] data) {
 		PosicionPersona posicionPersona = new PosicionPersona();
-		String fecha = null, hora;
+		Map<Integer, String> nuevaPosicionPersona = new HashMap<>();
 		float latitud = 0, longitud;
+
 		for (int i = 1; i < Constantes.MAX_DATOS_LOCALIZACION; i++) {
-			String s = data[i];
-			switch (i) {
-			case 1:
-				posicionPersona.setDocumento(s);
-				break;
-			case 2:
-				fecha = data[i];
-				break;
-			case 3:
-				hora = data[i];
-				posicionPersona.setFechaPosicion(parsearFecha(fecha, hora));
-				break;
-			case 4:
-				latitud = Float.parseFloat(s);
-				break;
-			case 5:
-				longitud = Float.parseFloat(s);
-				posicionPersona.setCoordenada(new Coordenada(latitud, longitud));
-				break;
-			}
+			nuevaPosicionPersona.put(i, data[i]);
 		}
+		posicionPersona.setDocumento(nuevaPosicionPersona.get(1));
+		posicionPersona.setFechaPosicion(parsearFecha(nuevaPosicionPersona.get(2),nuevaPosicionPersona.get(3)));
+		posicionPersona.setCoordenada(new Coordenada(parseFloat(nuevaPosicionPersona.get(4)), parseFloat(nuevaPosicionPersona.get(5))));
 		return posicionPersona;
 	}
 	
