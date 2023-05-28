@@ -14,11 +14,7 @@ import com.practica.excecption.EmsInvalidNumberOfDataException;
 import com.practica.excecption.EmsInvalidTypeException;
 import com.practica.excecption.EmsLocalizationNotFoundException;
 import com.practica.excecption.EmsPersonNotFoundException;
-import com.practica.genericas.Constantes;
-import com.practica.genericas.Coordenada;
-import com.practica.genericas.FechaHora;
-import com.practica.genericas.Persona;
-import com.practica.genericas.PosicionPersona;
+import com.practica.genericas.*;
 import com.practica.lista.ListaContactos;
 
 public class ContactosCovid {
@@ -71,22 +67,20 @@ public class ContactosCovid {
 	}
 
 	public void loadDataFile(String fichero, boolean reset) {
-		File archivo = null;
-		FileReader fr = null;
-		BufferedReader br = null;
+		Lector lector = new Lector();
 		String datas[] = null, data = null;
-		loadDataFile(fichero, reset, archivo, fr, br, datas, data);
+		loadDataFile(fichero, reset,lector, datas, data);
 		
 	}
 
 	@SuppressWarnings("resource")
-	public void loadDataFile(String fichero, boolean reset, File archivo, FileReader fr, BufferedReader br, String datas[], String data ) {
+	public void loadDataFile(String fichero, boolean reset, Lector lector, String datas[], String data ) {
 		try {
 			// Apertura del fichero y creacion de BufferedReader para poder
 			// hacer una lectura comoda (disponer del metodo readLine()).
-			archivo = new File(fichero);
-			fr = new FileReader(archivo);
-			br = new BufferedReader(fr);
+			lector.setArchivo(new File(fichero));
+			lector.setFr(new FileReader(lector.getArchivo()));
+			lector.setBr(new BufferedReader(lector.getFr()));
 			if (reset) {
 				this.poblacion = new Poblacion();
 				this.localizacion = new Localizacion();
@@ -97,7 +91,7 @@ public class ContactosCovid {
 			 * tiene el tipo PERSONA o LOCALIZACION y cargo la línea de datos en la 
 			 * lista correspondiente. Sino viene ninguno de esos tipos lanzo una excepción
 			 */
-			while ((data = br.readLine()) != null) {
+			while ((data = lector.getBr().readLine()) != null) {
 				datas = dividirEntrada(data.trim());
 				checkDatas(datas);
 
@@ -110,8 +104,8 @@ public class ContactosCovid {
 			// que se cierra tanto si todo va bien como si salta
 			// una excepcion.
 			try {
-				if (null != fr) {
-					fr.close();
+				if (null != lector.getFr()) {
+					lector.getFr().close();
 				}
 			} catch (Exception e2) {
 				e2.printStackTrace();
