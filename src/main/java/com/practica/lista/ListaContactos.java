@@ -26,7 +26,7 @@ public class ListaContactos {
 				/**
 				 * Insertamos en la lista de coordenadas
 				 */
-				InsertarListaCoordenadas(p, aux);
+				insertarListaCoordenadas(p, aux);
 			}else if(aux.getFecha().compareTo(p.getFechaPosicion())<0) {
 				ant = aux;
 				aux=aux.getSiguiente();
@@ -43,7 +43,7 @@ public class ListaContactos {
 			nuevo.setFecha(p.getFechaPosicion());
 
 
-			InsertarListaCoordenadas(p, nuevo);
+			insertarListaCoordenadas(p, nuevo);
 
 			if(ant!=null) {
 				nuevo.setSiguiente(aux);
