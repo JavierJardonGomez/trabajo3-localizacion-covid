@@ -57,7 +57,7 @@ public class ListaContactos {
 		}
 	}
 
-	private void InsertarListaCoordenadas(PosicionPersona p, NodoTemporal aux) {
+	private void insertarListaCoordenadas(PosicionPersona p, NodoTemporal aux) {
 		NodoPosicion npActual = aux.getListaCoordenadas();
 		NodoPosicion npAnt=null;
 		boolean npEncontrado = false;
@@ -77,14 +77,6 @@ public class ListaContactos {
 			else
 				npAnt.setSiguiente(npNuevo);			
 		}
-	}
-
-	private void insertarPersona (String documento, NodoPersonas nodo) {
-		NodoPersonas aux = nodo, nuevo = new NodoPersonas(documento, null);
-		while(aux.getSiguiente()!=null) {				
-			aux = aux.getSiguiente();				
-		}
-		aux.setSiguiente(nuevo);		
 	}
 	
 	public int personasEnCoordenadas () {
