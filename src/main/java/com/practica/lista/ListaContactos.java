@@ -57,7 +57,7 @@ public class ListaContactos {
 		}
 	}
 
-	private void InsertarListaCoordenadas(PosicionPersona p, NodoTemporal aux) {
+	private void insertarListaCoordenadas(PosicionPersona p, NodoTemporal aux) {
 		NodoPosicion npActual = aux.getListaCoordenadas();
 		NodoPosicion npAnt=null;
 		boolean npEncontrado = false;
